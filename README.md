@@ -115,7 +115,7 @@ We also used standardized the quantiative feature `TOTAL.SALES` using `StandardS
 
 To assess our KNN model performance, we decided to use a Confusion Matrix to analyze the amount of false positives and false negatives our model got. Overall, our model had a 66.32% training accuracy and a 63.95% testing accuracy.
 
-Based on our training and testing accuracy, our current model is not that good. Both the training and testing accuracies average around 63 to 66%, which means our model uses the given features to predict the correct `CAUSE.CATEGORY` only a bit more than half the time. We decided that a model with 85% accuracy or above is considered to be good, so our current model falls below the threshold and is not considered adequate enough. 
+Based on our training and testing accuracy, our current model is not that good. Both the training and testing accuracies average around 63 to 66%, which means our model uses the given features to predict the correct `CAUSE.CATEGORY` only a bit more than half the time. We decided that a model with 80% accuracy or above is considered to be good, so our current model falls below the threshold and is not considered adequate enough. 
 
 To describe more on the Confusion Matrix shown below, our Confusion Matrix reported our model to have a precision score of 0.638 and a recall score of 0.639. There are 243 total true positives (TP) and 108 false positives (FP).
 
