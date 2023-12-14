@@ -125,13 +125,43 @@ To describe more on the Confusion Matrix shown below, our Confusion Matrix repor
 
 ---
 
+> Model Description
+
+For our final model, we chose to use the RandomForestClassifier. In order to improve our accuracy, we want to fine-tune the hyperparameters in our model with much detail, and we found the RandomForestClassifier does the best in allowing for a lot of hyperparameters to be tuned (as compared to a regular linear regression). Since we are trying to predict the categorical feature `CAUSE.CATEGORY`, this was another reason why we decided to use the classification method that is RandomForestClassifier.
+
+We used a hyperparameter search, and it resulted in a depth of 15 and in the grid search we also found that using entropy gave us better results.
+
 Below is a graph of F1 train error and F1 test error based on max_depth. We picked a max_depth of 15 as it has the lowest validation error.
 <iframe src="assets/max_depth.html" width=800 height=600 frameBorder=0></iframe>
+
+> Feature Descriptions
+
+Here are the descriptions and reasoning for each feature (descriptions taken from the dataset [website](https://www.sciencedirect.com/science/article/pii/S2352340918307182)): 
+
+- `CUSTOMERS.AFFECTED`: Represents the number of customers affected by the power outage event. If the number of customers affected is too high or too low, this could provide insight into what type of power outage causes that specific amount of customers to be affected. 
+- `TOTAL.REALGSP`: Represents the real gross state product (GSP) contributed by all industries (total) (measured in 2009 chained U.S. dollars). If we know how much GSP each industry contributes, coupled with knowing where those industries are located in the U.S., this knowledge could influence certain non weather-based cause categories to happen more or less (i.e. `intentional attack`, `equipment failure`). 
+- `TOTAL.PRICE`: Represents the average monthly electricity price in the U.S. state (cents/kilowatt-hour). If the electricity price is lower or higher, then non weather-based power outages (i.e. `intentional attack`, `equipment failure`) could be influenced.  
+- `ANOMALY.LEVEL`: Represents the oceanic El Niño/La Niña (ONI) index referring to the cold and warm episodes by season. El Nino and La Nina are extreme weather phenomenons that happen around every 3 years. Knowing when they occur can influence what specific weather-based causes of power outages happen.  
+- `OUTAGE.DURATION`: Represents the duration of outage events (in minutes). If the duration of the outage is longer or shorter, then that can influence the type of power outage cause. For instance, if a duration is shorter, then it's probably not associated with an extreme-weather based cause.  
+- `RES.PERCEN`: Represents the percentage of residential electricity consumption compared to the total electricity consumption in the state (in %). We wanted to not only focus on the generla electricity consumption, but were rather curious what the residential percentage of electricity consumption can influence the causes. The amount of residential electricity consumption can influence non weather-based causes.  
+- `MONTH`: Represents the month when the outage event occurred. Certain power outage causes, especially those that are weather-based, can be correlated with the month the power outage was in, because the month can tell us the whether at the time of the month too. 
+
+> Feature Transformations 
+
+Here are the feature transformations used: 
+
+- One-Hot Encode: `U.S._STATE`, `CLIMATE.CATEGORY`
+- Standard Scalar: `TOTAL.PRICE`, `OUTAGE.DURATION`
+
+> Model Performance
+
+Overall, our final model performed much better than our baseline model, with a new training accuracy of 100% (which is 1 - our training error of 0.0) and a new testing accuracy of 81.84% (which is 1 - our testing error of 0.18157894736842106). Our model metric, F1-score, reported to have a training error of 0.0 and testing error of 0.156349037818392. This is already a drastic improvement compared to our baseline model's testing and training accuracies, which landed in the 60% range. However something to take note is that our training accuracy is 100% and our F1-score training error is 0%, which could indicate that we overfit the model.
 
 
 ## Fairness Analysis
 
-For our fairness analysis we decided to go with F1 score as it incoporates the fact that our data is uneavenly distributed. We picked the `CAUSE.CATEGORY` 
+For our fairness analysis we decided to go with F1 score as it incoporates the fact that our data is uneavenly distributed. We decided to use `CUSTOMERS.AFFECTED` as the column to split into two groups. We split our columns into two groups, group 1 being less than 10,000 people affected and group 2 being more than 10,000. The null hypothesis is that our model is fair and the f1 score for both groups of `CUSTOMER.AFFECTED` is the same. The alternate hypothesis is that our model is unfair and the f1 score for both groups of `CUSTOMER.AFFECTED` is greater for group 2. We picked a significance level of 0.01. We ran the permutation 1000 times and it resulted in a p-value of 0.713. Hence we fail to reject the null hypothesis. We cannot say for sure that our test is fair as the results could be due to random chance. Below is a graph to display our distribution.
 
+<iframe src="assets/permutation2.html" width=800 height=600 frameBorder=0></iframe>
 
-We create a null hypothesis that our F1 score for each classifier group is the same. We create the alternate hypothesis that the F1 score for each group is not the same. 
+(Note: the graph behaved weirdly as the distribution of values is very small and very close to 0)
