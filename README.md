@@ -119,7 +119,7 @@ Based on our training and testing accuracy, our current model is not that good. 
 
 To describe more on the Confusion Matrix shown below, our Confusion Matrix reported our model to have a precision score of 0.638 and a recall score of 0.639. There are 243 total true positives (TP) and 108 false positives (FP).
 
-<iframe src="assets/confusion_matrix_knn.png" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/connf_matrix.png" width=800 height=600 frameBorder=0></iframe>
 
 ## Final Model
 
